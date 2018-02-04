@@ -12,7 +12,14 @@ application.get('/', (req, res) => {
 });
 
 application.get('/posts', (req, res) => {
-  res.json(items);
+  const { query } = req.query;
+  let result = items;
+  if (query) {
+    result = result.filter((item) => {
+      return item.title.toUpperCase().indexOf(query.toUpperCase()) >= 0;
+    });
+  }
+  res.json(result);
 });
 
 application.get('/posts/:postId', (req, res) => {
